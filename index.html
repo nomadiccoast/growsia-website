@@ -2,35 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Growsia — Premium Web Solutions</title>
     <script>
-        // Defensive script to prevent "Cannot set property fetch of #<Window> which has only a getter"
         (function() {
             try {
                 const nativeFetch = window.fetch;
                 Object.defineProperty(window, 'fetch', {
                     configurable: true,
                     enumerable: true,
-                    get: function() {
-                        return nativeFetch;
-                    },
-                    set: function(v) {
-                        console.warn('Attempted to override window.fetch. This was prevented to avoid TypeError.');
-                    }
+                    get: function() { return nativeFetch; },
+                    set: function(v) { console.warn('Attempted to override window.fetch'); }
                 });
-            } catch (e) {
-                console.error('Failed to set up fetch defensive guard:', e);
-            }
+            } catch (e) {}
         })();
     </script>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* CSS Custom Properties */
+        /* ---------- Base & Variables ---------- */
         :root {
             --bg: #0a0a0a;
             --ink: #ffffff;
@@ -43,12 +35,11 @@
             --apple-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
         }
 
-        /* Reset & Base */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; /* Hide default cursor for custom one */
+            cursor: none;
         }
 
         html {
@@ -86,9 +77,9 @@
         #cursor.hover {
             width: 40px;
             height: 40px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.1);
             backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         /* Typography */
@@ -105,7 +96,7 @@
             font-size: 1.1rem;
         }
 
-        /* Layout Utilities */
+        /* Layout */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -143,7 +134,7 @@
         }
 
         nav.scrolled {
-            background: rgba(10, 10, 10, 0.8);
+            background: rgba(10,10,10,0.8);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--line);
         }
@@ -184,7 +175,7 @@
             border-color: var(--ink);
         }
 
-        /* Hero Section */
+        /* Hero */
         #hero {
             height: 100vh;
             display: flex;
@@ -235,7 +226,7 @@
             background: var(--line);
         }
 
-        /* Services Section */
+        /* Services */
         #services .grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -254,7 +245,7 @@
         .service-card:hover {
             border-color: var(--ink);
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
 
         .service-card .icon {
@@ -264,7 +255,7 @@
             justify-content: center;
             width: 64px;
             height: 64px;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255,255,255,0.03);
             border-radius: 16px;
             color: var(--ink);
         }
@@ -274,7 +265,7 @@
             margin-bottom: 16px;
         }
 
-        /* Why Choose Us Section */
+        /* Why Choose Us */
         #why .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -295,7 +286,7 @@
             margin-bottom: 16px;
         }
 
-        /* Contact Section */
+        /* Contact */
         #contact {
             text-align: center;
             position: relative;
@@ -347,7 +338,7 @@
             font-size: 0.8rem;
         }
 
-        /* Scroll Reveal Animation */
+        /* Scroll Reveal */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -359,14 +350,14 @@
             transform: translateY(0);
         }
 
-        /* Modal / Form */
+        /* ---------- Modal & Form Styles ---------- */
         #modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 10, 10, 0.95);
+            background: rgba(10,10,10,0.95);
             backdrop-filter: blur(10px);
             z-index: 2000;
             display: none;
@@ -376,7 +367,7 @@
         }
 
         #modal-content {
-            background: rgba(10, 10, 10, 0.8);
+            background: rgba(10,10,10,0.8);
             backdrop-filter: blur(30px);
             border: 1px solid var(--line);
             width: 100%;
@@ -385,61 +376,81 @@
             position: relative;
             border-radius: 24px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .close-modal {
             position: absolute;
-            top: 30px;
-            right: 30px;
-            background: none;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
             border: none;
             color: var(--grey);
-            font-size: 1.5rem;
-            cursor: none;
+            font-size: 24px;
+            width: 44px;
+            height: 44px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .close-modal:hover {
+            background: rgba(255,255,255,0.2);
+            color: var(--ink);
         }
 
         .form-group {
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
 
         .form-group label {
             display: block;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: var(--grey);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
-        .form-group input, .form-group textarea, .form-group select {
+        .form-group input, 
+        .form-group textarea {
             width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid var(--line);
-            padding: 12px 0;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 14px 16px;
             color: var(--ink);
             font-family: var(--font-body);
             font-size: 1rem;
             outline: none;
-            transition: border-color 0.3s var(--apple-ease);
+            transition: border-color 0.3s;
         }
 
-        .form-group input:focus, .form-group textarea:focus {
+        .form-group input:focus, 
+        .form-group textarea:focus {
             border-color: var(--ink);
         }
 
+        /* Services grid (clickable blocks) */
         .services-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
         }
 
         .service-opt {
-            padding: 12px;
+            background: rgba(255,255,255,0.05);
             border: 1px solid var(--line);
-            font-size: 0.8rem;
+            border-radius: 12px;
+            padding: 12px;
             text-align: center;
-            transition: var(--transition);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
         }
 
         .service-opt.selected {
@@ -448,84 +459,112 @@
             border-color: var(--ink);
         }
 
-        /* Responsive */
-        /* Modal enhancements for mobile */
-@media (max-width: 768px) {
-    #modal-content {
-        padding: 32px 24px !important;
-        width: 95%;
-        max-width: none;
-    }
+        /* Time selection radio buttons as blocks */
+        .time-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 8px;
+        }
 
-    #modal-content h2 {
-        font-size: 1.8rem;
-        margin-bottom: 24px;
-    }
+        .time-option {
+            flex: 1 0 auto;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--line);
+            border-radius: 40px;
+            padding: 12px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
 
-    .form-group {
-        margin-bottom: 24px;
-    }
+        .time-option input {
+            display: none;
+        }
 
-    .services-grid {
-        gap: 8px;
-    }
+        .time-option span {
+            font-size: 0.85rem;
+        }
 
-    .service-opt {
-        padding: 10px;
-        font-size: 0.75rem;
-    }
+        .time-option.selected {
+            background: var(--ink);
+            color: var(--bg);
+            border-color: var(--ink);
+        }
 
-    /* Time selection radio buttons – stack vertically for easier tapping */
-    .time-options {
-        flex-direction: column;
-        gap: 12px;
-    }
+        /* Submit button */
+        .submit-btn {
+            width: 100%;
+            padding: 16px !important;
+            font-size: 1rem !important;
+            background: var(--ink);
+            color: var(--bg);
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 20px;
+        }
 
-    .time-options label {
-        padding: 12px;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 12px;
-        width: 100%;
-        text-align: center;
-    }
+        .submit-btn:hover {
+            background: var(--bg);
+            color: var(--ink);
+            border: 1px solid var(--ink);
+        }
 
-    /* Make the submit button more prominent */
-    .submit-btn {
-        width: 100%;
-        padding: 16px !important;
-        font-size: 1rem !important;
-        background: var(--ink);
-        color: var(--bg);
-        border: none;
-        border-radius: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: 0.2s;
-    }
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+            .section-padding { padding: 120px 0; }
+            #services .grid { grid-template-columns: 1fr; gap: 30px; }
+            #why .grid { grid-template-columns: 1fr; gap: 60px; }
+            #modal-content {
+                padding: 40px 24px !important;
+                width: 95%;
+            }
+            #modal-content h2 {
+                font-size: 1.8rem;
+                margin-bottom: 24px;
+            }
+            .form-group {
+                margin-bottom: 24px;
+            }
+            .services-grid {
+                gap: 8px;
+            }
+            .service-opt {
+                padding: 10px;
+                font-size: 0.75rem;
+            }
+            .time-options {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .time-option {
+                width: 100%;
+                text-align: center;
+            }
+            .submit-btn {
+                padding: 14px !important;
+                font-size: 1rem !important;
+            }
+        }
 
-    .submit-btn:hover {
-        background: var(--bg);
-        color: var(--ink);
-        border: 1px solid var(--ink);
-    }
-}
-@media (pointer: coarse) {
-    #cursor {
-        display: none;
-    }
-    * {
-        cursor: auto !important;
-    }
-}
+        @media (pointer: coarse) {
+            #cursor {
+                display: none;
+            }
+            * {
+                cursor: auto !important;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Custom Cursor -->
     <div id="cursor"></div>
 
-    <!-- Navbar -->
     <nav id="navbar">
         <div class="container">
             <a href="#" class="logo">Growsia</a>
@@ -533,7 +572,6 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section id="hero">
         <div class="container">
             <h1 id="hero-title">We Build Websites That Work As Hard As You Do.</h1>
@@ -543,91 +581,54 @@
         <div class="hero-divider"></div>
     </section>
 
-    <!-- Services Section -->
     <section id="services" class="section-padding">
         <div class="container">
             <span class="label reveal">What we do</span>
             <h2 class="reveal">Everything your business needs online.</h2>
-            
-          <div class="grid">
-    <!-- Website Development Card -->
-    <div class="service-card reveal">
-        <span class="icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        </span>
-        <h3>Website Development</h3>
-        <p>Fast, functional websites built specifically for your business. Not templates — high-performance systems designed to convert.</p>
-        <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 20px;">
-            <span style="font-size: 0.75rem; color: var(--grey); letter-spacing: 0.05em;">🏆 12+ websites launched</span>
-            <a href="portfolio.html#websites" style="color: var(--ink); text-decoration: none; font-weight: 600; font-size: 0.85rem; border-bottom: 1px solid var(--ink); padding-bottom: 2px;">See our work →</a>
-        </div>
-    </div>
-
-    <!-- Social Media Management Card -->
-    <div class="service-card reveal">
-        <span class="icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
-        </span>
-        <h3>Social Media Management</h3>
-        <p>Google, Instagram, and local SEO that brings real customers to your door. We manage your growth while you manage your business.</p>
-        <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 20px;">
-            <span style="font-size: 0.75rem; color: var(--grey); letter-spacing: 0.05em;">📈 20+ accounts managed</span>
-            <a href="portfolio.html#social" style="color: var(--ink); text-decoration: none; font-weight: 600; font-size: 0.85rem; border-bottom: 1px solid var(--ink); padding-bottom: 2px;">See our work →</a>
-        </div>
-    </div>
-
-    <!-- Business Photography Card -->
-    <div class="service-card reveal">
-        <span class="icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
-        </span>
-        <h3>Business Photography</h3>
-        <p>Professional photo clicking of your business. High-end visuals that make your brand look as good as it actually is.</p>
-        <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 20px;">
-            <span style="font-size: 0.75rem; color: var(--grey); letter-spacing: 0.05em;">📸 50+ shoots completed</span>
-            <a href="portfolio.html#photography" style="color: var(--ink); text-decoration: none; font-weight: 600; font-size: 0.85rem; border-bottom: 1px solid var(--ink); padding-bottom: 2px;">See our work →</a>
-        </div>
-    </div>
-</div>
-    <!-- Why Choose Us Section -->
-    <section id="why" class="section-padding">
-        <div class="container">
-            <span class="label reveal">Why Growsia</span>
-            
             <div class="grid">
-                <div class="why-item reveal">
-                    <span class="num">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                    </span>
-                    <h3>Built for Local Businesses</h3>
-                    <p>We understand the specific needs of gyms, restaurants, and coaching institutes. We build for your neighborhood.</p>
+                <div class="service-card reveal">
+                    <span class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+                    <h3>Website Development</h3>
+                    <p>Fast, functional websites built specifically for your business. Not templates — high-performance systems designed to convert.</p>
+                    <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 20px;">
+                        <span style="font-size: 0.75rem; color: var(--grey);">🏆 12+ websites launched</span>
+                        <a href="portfolio.html#websites" style="color: var(--ink); text-decoration: none; font-weight: 600; font-size: 0.85rem; border-bottom: 1px solid var(--ink);">See our work →</a>
+                    </div>
                 </div>
-                <div class="why-item reveal">
-                    <span class="num">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px;"><path d="M12 2v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="M2 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="M12 22v-4"/><path d="m19.07 19.07-2.83-2.83"/><path d="M22 12h-4"/><path d="m19.07 4.93-2.83 2.83"/><path d="M12 12v.01"/></svg>
-                    </span>
-                    <h3>AI Powered Efficiency</h3>
-                    <p>Every website we build includes smart features that save you time and effort. Automation that actually works.</p>
+                <div class="service-card reveal">
+                    <span class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>
+                    <h3>Social Media Management</h3>
+                    <p>Google, Instagram, and local SEO that brings real customers to your door. We manage your growth while you manage your business.</p>
+                    <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 20px;">
+                        <span style="font-size: 0.75rem; color: var(--grey);">📈 20+ accounts managed</span>
+                        <a href="portfolio.html#social" style="color: var(--ink); text-decoration: none; font-weight: 600; font-size: 0.85rem; border-bottom: 1px solid var(--ink);">See our work →</a>
+                    </div>
                 </div>
-                <div class="why-item reveal">
-                    <span class="num">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    </span>
-                    <h3>End to End Support</h3>
-                    <p>From design to launch to ongoing support, we handle everything. You focus on your business, we handle the tech.</p>
-                </div>
-                <div class="why-item reveal">
-                    <span class="num">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px;"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
-                    </span>
-                    <h3>Results Focused</h3>
-                    <p>We measure success by your growth, not just how the website looks. If it doesn't bring customers, it's not working.</p>
+                <div class="service-card reveal">
+                    <span class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></span>
+                    <h3>Business Photography</h3>
+                    <p>Professional photo clicking of your business. High-end visuals that make your brand look as good as it actually is.</p>
+                    <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 20px;">
+                        <span style="font-size: 0.75rem; color: var(--grey);">📸 50+ shoots completed</span>
+                        <a href="portfolio.html#photography" style="color: var(--ink); text-decoration: none; font-weight: 600; font-size: 0.85rem; border-bottom: 1px solid var(--ink);">See our work →</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
+    <section id="why" class="section-padding">
+        <div class="container">
+            <span class="label reveal">Why Growsia</span>
+            <div class="grid">
+                <div class="why-item reveal"><span class="num"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span><h3>Built for Local Businesses</h3><p>We understand the specific needs of gyms, restaurants, and coaching institutes. We build for your neighborhood.</p></div>
+                <div class="why-item reveal"><span class="num"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="M2 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="M12 22v-4"/><path d="m19.07 19.07-2.83-2.83"/><path d="M22 12h-4"/><path d="m19.07 4.93-2.83 2.83"/><path d="M12 12v.01"/></svg></span><h3>AI Powered Efficiency</h3><p>Every website we build includes smart features that save you time and effort. Automation that actually works.</p></div>
+                <div class="why-item reveal"><span class="num"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><h3>End to End Support</h3><p>From design to launch to ongoing support, we handle everything. You focus on your business, we handle the tech.</p></div>
+                <div class="why-item reveal"><span class="num"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></span><h3>Results Focused</h3><p>We measure success by your growth, not just how the website looks. If it doesn't bring customers, it's not working.</p></div>
+            </div>
+        </div>
+    </section>
+
     <section id="contact" class="section-padding">
         <div class="container">
             <h2 class="reveal">Ready to grow?</h2>
@@ -637,7 +638,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <p>© 2025 Growsia</p>
@@ -649,7 +649,7 @@
     <div id="modal-overlay">
         <div id="modal-content">
             <button class="close-modal">✕</button>
-            <h2 style="margin-bottom: 40px; font-size: 2.5rem;">Start Your Project</h2>
+            <h2 style="margin-bottom: 40px;">Start Your Project</h2>
             <form id="inquiry-form">
                 <div class="form-group">
                     <label>Your Name</label>
@@ -660,16 +660,14 @@
                     <input type="text" name="businessName" required placeholder="Your Company Ltd.">
                 </div>
                 <div class="form-group">
-                    <div class="form-group">
-    <label>Mobile Number</label>
-    <input type="tel" name="mobile" required placeholder="10-digit mobile number"
-           pattern="\d{10}" title="Please enter exactly 10 digits"
-           inputmode="numeric" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-</div>
+                    <label>Mobile Number</label>
+                    <input type="tel" name="mobile" required placeholder="10-digit mobile number"
+                           pattern="\d{10}" title="Please enter exactly 10 digits"
+                           inputmode="numeric" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
                 <div class="form-group">
                     <label>Services Wanted</label>
-                    <div class="services-grid">
+                    <div class="services-grid" id="services-grid">
                         <div class="service-opt" data-value="Web Dev">Web Dev</div>
                         <div class="service-opt" data-value="Marketing">Marketing</div>
                         <div class="service-opt" data-value="Photography">Photography</div>
@@ -681,24 +679,27 @@
                     <textarea name="details" rows="3" placeholder="Tell us more..."></textarea>
                 </div>
                 <div class="form-group">
-    <label>Preferred Call Time</label>
-    <div class="time-options" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px;">
-        <label style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1);">
-            <input type="radio" name="callTime" value="Morning (9 AM – 12 PM)" required> Morning
-        </label>
-        <label style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1);">
-            <input type="radio" name="callTime" value="Afternoon (12 PM – 5 PM)"> Afternoon
-        </label>
-        <label style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1);">
-            <input type="radio" name="callTime" value="Evening (5 PM – 8 PM)"> Evening
-        </label>
-        <label style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1);">
-            <input type="radio" name="callTime" value="Night (8 PM – 11 PM)"> Night
-        </label>
-    </div>
-</div>
-</div>
-                <button type="submit" class="btn submit-btn" style="width: 100%; padding: 20px; margin-top: 20px;">Submit Inquiry</button>
+                    <label>Preferred Call Time</label>
+                    <div class="time-options" id="time-options">
+                        <div class="time-option" data-value="Morning (9 AM – 12 PM)">
+                            <input type="radio" name="callTime" value="Morning (9 AM – 12 PM)" id="time-morning">
+                            <span>Morning (9 AM – 12 PM)</span>
+                        </div>
+                        <div class="time-option" data-value="Afternoon (12 PM – 5 PM)">
+                            <input type="radio" name="callTime" value="Afternoon (12 PM – 5 PM)" id="time-afternoon">
+                            <span>Afternoon (12 PM – 5 PM)</span>
+                        </div>
+                        <div class="time-option" data-value="Evening (5 PM – 8 PM)">
+                            <input type="radio" name="callTime" value="Evening (5 PM – 8 PM)" id="time-evening">
+                            <span>Evening (5 PM – 8 PM)</span>
+                        </div>
+                        <div class="time-option" data-value="Night (8 PM – 11 PM)">
+                            <input type="radio" name="callTime" value="Night (8 PM – 11 PM)" id="time-night">
+                            <span>Night (8 PM – 11 PM)</span>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn submit-btn">Submit Inquiry</button>
             </form>
             <div id="form-status" style="margin-top: 20px; text-align: center; font-size: 0.9rem;"></div>
         </div>
@@ -727,7 +728,7 @@
 
         // Cursor Hover Effect
         function updateCursorListeners() {
-            const clickables = document.querySelectorAll('a, button, .service-opt, .service-card');
+            const clickables = document.querySelectorAll('a, button, .service-opt, .service-card, .time-option');
             clickables.forEach(el => {
                 el.addEventListener('mouseenter', () => {
                     cursor.classList.add('hover');
@@ -751,20 +752,18 @@
                 el.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
             });
             el.addEventListener('mouseleave', () => {
-                el.style.transform = `translate(0, 0)`;
+                el.style.transform = '';
             });
         });
 
         // --- Page Load Animations ---
         window.addEventListener('DOMContentLoaded', () => {
-            // Navbar fade in
             const navbar = document.getElementById('navbar');
             setTimeout(() => {
                 navbar.style.opacity = '1';
                 navbar.style.transform = 'translateY(0)';
             }, 100);
 
-            // Hero Title Word Reveal
             const heroTitle = document.getElementById('hero-title');
             const words = heroTitle.innerText.split(' ');
             heroTitle.innerHTML = '';
@@ -780,46 +779,31 @@
                 }, 200);
             });
 
-            // Hero Subheading & CTA
             const heroSub = document.getElementById('hero-sub');
             const heroCta = document.getElementById('hero-cta');
             const totalDelay = words.length * 100 + 300;
-            
             setTimeout(() => {
                 heroSub.style.opacity = '1';
                 heroSub.style.transform = 'translateY(0)';
-                heroSub.style.transition = '0.8s var(--apple-ease)';
             }, totalDelay);
-
             setTimeout(() => {
                 heroCta.style.opacity = '1';
                 heroCta.style.transform = 'translateY(0)';
-                heroCta.style.transition = '0.8s var(--apple-ease)';
             }, totalDelay + 200);
         });
 
         // --- Navbar Scroll Behavior ---
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
         });
 
         // --- Scroll Reveal (Intersection Observer) ---
-        const revealOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    
-                    // Stagger children if it's a grid
                     if (entry.target.classList.contains('grid')) {
                         const children = entry.target.querySelectorAll('.reveal');
                         children.forEach((child, i) => {
@@ -829,8 +813,7 @@
                     }
                 }
             });
-        }, revealOptions);
-
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
         document.querySelectorAll('.reveal, .grid').forEach(el => revealObserver.observe(el));
 
         // --- Modal & Form Logic ---
@@ -839,6 +822,7 @@
         const closeBtn = document.querySelector('.close-modal');
         const inquiryForm = document.getElementById('inquiry-form');
         const serviceOpts = document.querySelectorAll('.service-opt');
+        const timeOptions = document.querySelectorAll('.time-option');
         let selectedServices = [];
 
         openBtns.forEach(btn => {
@@ -847,15 +831,10 @@
                 modal.style.display = 'flex';
             });
         });
+        closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+        window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
 
-        closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) modal.style.display = 'none';
-        });
-
+        // Service selection (toggle)
         serviceOpts.forEach(opt => {
             opt.addEventListener('click', () => {
                 const val = opt.getAttribute('data-value');
@@ -869,20 +848,33 @@
             });
         });
 
+        // Time selection (visual block + radio)
+        timeOptions.forEach(opt => {
+            const radio = opt.querySelector('input[type="radio"]');
+            opt.addEventListener('click', () => {
+                radio.checked = true;
+                timeOptions.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+            });
+            if (radio.checked) opt.classList.add('selected');
+        });
+
+        // Form submission (instant)
         inquiryForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const status = document.getElementById('form-status');
             status.innerText = 'Sending...';
-            
-           const formData = new FormData(inquiryForm);
-const data = {
-    name: formData.get('name'),
-    businessName: formData.get('businessName'),
-    mobile: formData.get('mobile'),
-    services: selectedServices,
-    details: formData.get('details'),
-    callTime: document.querySelector('input[name="callTime"]:checked')?.value || null
-};
+            status.style.color = 'var(--grey)';
+
+            const formData = new FormData(inquiryForm);
+            const data = {
+                name: formData.get('name'),
+                businessName: formData.get('businessName'),
+                mobile: formData.get('mobile'),
+                services: selectedServices,
+                details: formData.get('details'),
+                callTime: document.querySelector('input[name="callTime"]:checked')?.value || null
+            };
 
             try {
                 const response = await fetch('/api/inquiry', {
@@ -893,9 +885,9 @@ const data = {
 
                 if (response.ok) {
                     status.innerHTML = `
-                        <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                            <span style="font-size: 1.2rem; font-weight: 600;">Success! We'll be in touch.</span>
+                        <div style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            <span style="font-size:1.2rem; font-weight:600;">Success! We'll be in touch.</span>
                         </div>
                     `;
                     inquiryForm.style.display = 'none';
@@ -905,7 +897,9 @@ const data = {
                         inquiryForm.reset();
                         selectedServices = [];
                         serviceOpts.forEach(o => o.classList.remove('selected'));
+                        timeOptions.forEach(o => o.classList.remove('selected'));
                         status.innerHTML = '';
+                        status.style.color = '';
                     }, 3000);
                 } else {
                     const errorData = await response.json().catch(() => ({}));
@@ -920,4 +914,3 @@ const data = {
     </script>
 </body>
 </html>
-
