@@ -449,21 +449,75 @@
         }
 
         /* Responsive */
-        @media (max-width: 992px) {
-            #services .grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-            #why .grid { grid-template-columns: 1fr; gap: 60px; }
-            .section-padding { padding: 120px 0; }
-        }
+        /* Modal enhancements for mobile */
+@media (max-width: 768px) {
+    #modal-content {
+        padding: 32px 24px !important;
+        width: 95%;
+        max-width: none;
+    }
 
-        @media (max-width: 768px) {
-            #services .grid { grid-template-columns: 1fr; }
-            .container { padding: 0 24px; }
-            .section-padding { padding: 80px 0; }
-            #hero h1 { font-size: 2.5rem; }
-            #hero p { font-size: 1rem; }
-            #modal-content { padding: 40px 24px; }
-            #contact h2 { font-size: 3rem; }
-        }
+    #modal-content h2 {
+        font-size: 1.8rem;
+        margin-bottom: 24px;
+    }
+
+    .form-group {
+        margin-bottom: 24px;
+    }
+
+    .services-grid {
+        gap: 8px;
+    }
+
+    .service-opt {
+        padding: 10px;
+        font-size: 0.75rem;
+    }
+
+    /* Time selection radio buttons – stack vertically for easier tapping */
+    .time-options {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .time-options label {
+        padding: 12px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 12px;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Make the submit button more prominent */
+    .submit-btn {
+        width: 100%;
+        padding: 16px !important;
+        font-size: 1rem !important;
+        background: var(--ink);
+        color: var(--bg);
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .submit-btn:hover {
+        background: var(--bg);
+        color: var(--ink);
+        border: 1px solid var(--ink);
+    }
+}
+@media (pointer: coarse) {
+    #cursor {
+        display: none;
+    }
+    * {
+        cursor: auto !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -628,22 +682,23 @@
                 </div>
                 <div class="form-group">
     <label>Preferred Call Time</label>
-    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 12px;">
-        <label style="display: flex; align-items: center; gap: 8px;">
+    <div class="time-options" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px;">
+        <label style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1);">
             <input type="radio" name="callTime" value="Morning (9 AM – 12 PM)" required> Morning
         </label>
-        <label style="display: flex; align-items: center; gap: 8px;">
+        <label style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1);">
             <input type="radio" name="callTime" value="Afternoon (12 PM – 5 PM)"> Afternoon
         </label>
-        <label style="display: flex; align-items: center; gap: 8px;">
+        <label style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1);">
             <input type="radio" name="callTime" value="Evening (5 PM – 8 PM)"> Evening
         </label>
-        <label style="display: flex; align-items: center; gap: 8px;">
+        <label style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1);">
             <input type="radio" name="callTime" value="Night (8 PM – 11 PM)"> Night
         </label>
     </div>
 </div>
-                <button type="submit" class="btn" style="width: 100%; padding: 20px;">Submit Inquiry</button>
+</div>
+                <button type="submit" class="btn submit-btn" style="width: 100%; padding: 20px; margin-top: 20px;">Submit Inquiry</button>
             </form>
             <div id="form-status" style="margin-top: 20px; text-align: center; font-size: 0.9rem;"></div>
         </div>
