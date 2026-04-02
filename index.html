@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Growsia — Premium Web Solutions</title>
+    <title>Growsia-Premium Web Solutions</title>
     <script>
         (function() {
             try {
@@ -883,6 +883,18 @@
                     body: JSON.stringify(data)
                 });
 
+                // Log the full response for debugging
+                console.log('Response status:', response.status);
+                const responseText = await response.text();
+                console.log('Response body:', responseText);
+
+                let result;
+                try {
+                    result = JSON.parse(responseText);
+                } catch (e) {
+                    result = { message: responseText || 'Unknown error' };
+                }
+
                 if (response.ok) {
                     status.innerHTML = `
                         <div style="display:flex; flex-direction:column; align-items:center; gap:16px;">
@@ -902,11 +914,11 @@
                         status.style.color = '';
                     }, 3000);
                 } else {
-                    const errorData = await response.json().catch(() => ({}));
-                    status.innerText = errorData.message || 'Error sending inquiry. Please try again.';
+                    status.innerText = result.message || 'Error sending inquiry. Please try again.';
                     status.style.color = '#ff4444';
                 }
             } catch (err) {
+                console.error('Fetch error:', err);
                 status.innerText = 'Network error: ' + err.message;
                 status.style.color = '#ff4444';
             }
