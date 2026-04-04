@@ -2,9 +2,9 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import { ReactNode, useState, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { 
   Code, 
   Megaphone, 
@@ -39,11 +39,16 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-bg selection:bg-accent selection:text-black">
+      {/* Add the Speed Insights component here */}
+      <SpeedInsights />
+      
       <AnimatePresence>
         {showForm && (
           <InquiryForm onClose={() => setShowForm(false)} />
         )}
       </AnimatePresence>
+
+      {/* ... the rest of your website ... */}
 
       {/* Section 1 — Navbar */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-bg/80 backdrop-blur-md border-b border-border">
