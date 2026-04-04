@@ -10,7 +10,9 @@ console.log("Webhook URL from env:", process.env.GOOGLE_SHEETS_WEBHOOK_URL);
 
 async function startServer() {
   const app = express();
-  const PORT = process.env.PORT || 3000;
+  
+  // FIX: Parse PORT as a number to resolve the TypeScript error
+  const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
   app.use(express.json());
 
@@ -39,26 +41,27 @@ async function startServer() {
       console.log(payload);
       console.log("==================\n");
 
-      // Send immediate response to the client
-      res.status(200).json({ success: true, message: "Inquiry received." });
-
-      // Fire-and-forget webhook call
+      // FIX: Wait for the webhook to finish before responding
       const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
       if (webhookUrl) {
-        fetch(webhookUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        })
-          .then(async (response) => {
-            const text = await response.text();
-            console.log("Webhook response status:", response.status);
-            console.log("Webhook response body:", text);
-          })
-          .catch(err => console.error("Webhook fetch failed:", err));
+        try {
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const text = await response.text();
+          console.log("Webhook response status:", response.status);
+          console.log("Webhook response body:", text);
+        } catch (err) {
+          console.error("Webhook fetch failed:", err);
+        }
       } else {
         console.warn("No webhook URL set – data not sent to Google Sheets");
       }
+
+      // Send response ONLY AFTER the webhook attempt is finished
+      res.status(200).json({ success: true, message: "Inquiry received." });
 
     } catch (err) {
       console.error("Error processing inquiry:", err);
@@ -83,6 +86,7 @@ async function startServer() {
     });
   }
 
+  // PORT is now explicitly a number, fixing the error
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
