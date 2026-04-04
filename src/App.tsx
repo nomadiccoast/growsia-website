@@ -5,6 +5,7 @@
 import { ReactNode, useState, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react";
 import { 
   Code, 
   Megaphone, 
@@ -41,6 +42,7 @@ export default function App() {
     <div className="min-h-screen bg-bg selection:bg-accent selection:text-black">
       {/* Add the Speed Insights component here */}
       <SpeedInsights />
+      <Analytics />
       
       <AnimatePresence>
         {showForm && (
