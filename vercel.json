@@ -1,5 +1,11 @@
 {
   "cleanUrls": true,
+   "rewrites": [
+    {
+      "source": "/work/atithi/:path*",
+      "destination": "https://atithi-sweets.vercel.app/:path*"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*).html",
