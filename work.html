@@ -6,84 +6,1190 @@
     <title>Our Work – Growsia</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        :root { --bg: #0a0a0a; --ink: #ffffff; --grey: #888888; --line: #1a1a1a; --font-heading: 'Syne', sans-serif; --font-body: 'Inter', sans-serif; --apple-ease: cubic-bezier(0.25,0.1,0.25,1); }
-        body { background-color: var(--bg); color: var(--ink); font-family: var(--font-body); overflow-x: hidden; }
-        #cursor { width: 8px; height: 8px; background: var(--ink); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transition: transform 0.1s ease-out, width 0.3s var(--apple-ease), height 0.3s var(--apple-ease); mix-blend-mode: difference; }
-        #cursor.hover { width: 40px; height: 40px; background: rgba(255,255,255,0.1); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.2); }
-        @media (pointer: coarse) { #cursor { display: none; } * { cursor: auto !important; } }
-        h1, h2, h3 { font-family: var(--font-heading); font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; }
-        p { color: var(--grey); line-height: 1.6; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
-        .section-padding { padding: 120px 0 80px; }
-        .label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.3em; color: var(--grey); margin-bottom: 32px; display: block; font-weight: 700; font-family: var(--font-heading); }
-        nav { position: fixed; top: 0; left: 0; width: 100%; height: 80px; display: flex; align-items: center; z-index: 1000; background: rgba(10,10,10,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--line); }
-        nav .container { width: 100%; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; letter-spacing: -0.04em; text-decoration: none; color: var(--ink); }
-        .btn { display: inline-block; padding: 12px 24px; font-family: var(--font-body); font-weight: 600; font-size: 0.9rem; text-decoration: none; transition: 0.3s; border: 1px solid transparent; background: var(--ink); color: var(--bg); }
-        .btn:hover { background: var(--bg); color: var(--ink); border-color: var(--ink); }
-        .work-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; margin-top: 60px; }
-        .work-card { background: transparent; border: 1px solid var(--line); border-radius: 24px; overflow: hidden; transition: transform 0.4s var(--apple-ease), border-color 0.4s; }
-        .work-card:hover { border-color: var(--ink); transform: translateY(-8px); }
-        .work-card img { width: 100%; height: 180px; object-fit: cover; background: #111; }
-        .work-card-content { padding: 24px; }
-        .work-card h3 { font-size: 1.4rem; margin-bottom: 12px; }
-        .work-card p { font-size: 0.9rem; margin-bottom: 20px; }
-        .work-link { color: var(--ink); text-decoration: none; font-weight: 600; font-size: 0.85rem; border-bottom: 1px solid var(--ink); padding-bottom: 2px; transition: opacity 0.2s; display: inline-block; }
-        .work-link:hover { opacity: 0.7; }
-        .section-nav { position: fixed; bottom: 30px; right: 30px; display: flex; gap: 16px; z-index: 100; flex-wrap: wrap; justify-content: flex-end; }
-        .section-nav a { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 12px 20px; border-radius: 40px; text-decoration: none; color: var(--ink); font-size: 0.8rem; font-weight: 500; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s; }
-        .section-nav a:hover { background: var(--ink); color: var(--bg); }
-        @media (max-width: 768px) { .container { padding: 0 24px; } .work-grid { grid-template-columns: 1fr; gap: 30px; } .section-nav { bottom: 20px; right: 20px; flex-direction: column; } .section-nav a { text-align: center; } }
-        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s var(--apple-ease), transform 0.7s var(--apple-ease); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        :root {
+            --bg: #080808;
+            --surface: #0f0f0f;
+            --ink: #f5f5f5;
+            --muted: #777777;
+            --line: #1c1c1c;
+            --line-hover: #333333;
+            --accent: #ffffff;
+            --font-heading: 'Syne', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --grid-gap: 16px;
+            --card-radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--ink);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ── Custom Cursor ─────────────────────── */
+        #cursor {
+            width: 8px;
+            height: 8px;
+            background: var(--ink);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 99999;
+            transition: transform 0.08s ease-out, width 0.35s var(--ease-out), height 0.35s var(--ease-out),
+                background 0.35s;
+            mix-blend-mode: difference;
+        }
+        #cursor.hover {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            mix-blend-mode: normal;
+        }
+        #cursor.hover-lightbox {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            mix-blend-mode: normal;
+        }
+        @media (pointer: coarse) {
+            #cursor {
+                display: none;
+            }
+            * {
+                cursor: auto !important;
+            }
+        }
+
+        /* ── Typography ───────────────────────── */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+        }
+        p {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* ── Navigation ───────────────────────── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(8, 8, 8, 0.75);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--line);
+        }
+        nav .nav-inner {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 40px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.04em;
+            text-decoration: none;
+            color: var(--ink);
+            transition: opacity 0.3s;
+        }
+        .logo:hover {
+            opacity: 0.7;
+        }
+        .btn-nav {
+            display: inline-block;
+            padding: 10px 22px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s var(--ease-out);
+            border: 1px solid var(--line-hover);
+            background: transparent;
+            color: var(--ink);
+            border-radius: 100px;
+            letter-spacing: 0.01em;
+        }
+        .btn-nav:hover {
+            background: var(--ink);
+            color: var(--bg);
+            border-color: var(--ink);
+        }
+
+        /* ── Hero / Intro ────────────────────── */
+        .intro {
+            padding: 160px 40px 60px;
+            max-width: 1320px;
+            margin: 0 auto;
+        }
+        .intro .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.35em;
+            color: var(--muted);
+            margin-bottom: 20px;
+            display: block;
+            font-weight: 700;
+            font-family: var(--font-heading);
+        }
+        .intro h1 {
+            font-size: clamp(2.8rem, 6vw, 5rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            margin-bottom: 16px;
+            line-height: 1.05;
+        }
+        .intro .subtitle {
+            font-size: 1.15rem;
+            color: var(--muted);
+            max-width: 520px;
+            font-weight: 400;
+        }
+        @media (max-width: 768px) {
+            .intro {
+                padding: 130px 24px 40px;
+            }
+            nav .nav-inner {
+                padding: 0 24px;
+            }
+        }
+
+        /* ── Filter Tabs ─────────────────────── */
+        .filter-bar {
+            max-width: 1320px;
+            margin: 0 auto 40px;
+            padding: 0 40px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 10px 20px;
+            border-radius: 100px;
+            border: 1px solid var(--line);
+            background: transparent;
+            color: var(--muted);
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out);
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+        .filter-btn:hover {
+            border-color: var(--line-hover);
+            color: var(--ink);
+        }
+        .filter-btn.active {
+            background: var(--ink);
+            color: var(--bg);
+            border-color: var(--ink);
+            font-weight: 600;
+        }
+        @media (max-width: 768px) {
+            .filter-bar {
+                padding: 0 24px;
+                gap: 8px;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                mask-image: linear-gradient(to right, black 85%, transparent 100%);
+                -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+            }
+            .filter-bar::-webkit-scrollbar {
+                display: none;
+            }
+            .filter-btn {
+                flex-shrink: 0;
+                font-size: 0.8rem;
+                padding: 8px 16px;
+            }
+        }
+
+        /* ── Work Grid ────────────────────────── */
+        .work-section {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 40px 100px;
+        }
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--grid-gap);
+        }
+        @media (max-width: 900px) {
+            .work-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+        }
+        @media (max-width: 560px) {
+            .work-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .work-section {
+                padding: 0 16px 80px;
+            }
+            .intro {
+                padding: 120px 16px 32px;
+            }
+            .filter-bar {
+                padding: 0 16px;
+            }
+        }
+
+        /* ── Work Item ────────────────────────── */
+        .work-item {
+            position: relative;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            transition: border-color 0.4s var(--ease-out), transform 0.5s var(--ease-out),
+                box-shadow 0.5s var(--ease-out);
+            cursor: pointer;
+            display: block;
+            aspect-ratio: 4 / 3;
+        }
+        .work-item--wide {
+            aspect-ratio: 16 / 8;
+        }
+        .work-item--tall {
+            aspect-ratio: 3 / 4;
+        }
+        .work-item--featured {
+            grid-column: span 2;
+            aspect-ratio: 16 / 9;
+        }
+        @media (max-width: 900px) {
+            .work-item--featured {
+                grid-column: span 2;
+                aspect-ratio: 16 / 9;
+            }
+            .work-item--wide {
+                aspect-ratio: 16 / 9;
+            }
+        }
+        @media (max-width: 560px) {
+            .work-item--featured,
+            .work-item--wide {
+                grid-column: span 1;
+                aspect-ratio: 4 / 3;
+            }
+            .work-item--tall {
+                aspect-ratio: 4 / 3;
+            }
+        }
+        .work-item:hover {
+            border-color: var(--line-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+        .work-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s var(--ease-out);
+            background: #111;
+        }
+        .work-item:hover img {
+            transform: scale(1.04);
+        }
+
+        /* ── Overlay on hover ────────────────── */
+        .work-item .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top,
+                    rgba(0, 0, 0, 0.85) 0%,
+                    rgba(0, 0, 0, 0.2) 50%,
+                    transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-out);
+            pointer-events: none;
+        }
+        .work-item:hover .overlay {
+            opacity: 1;
+        }
+        .work-item .overlay .tag {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-family: var(--font-heading);
+        }
+        .work-item .overlay h3 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+        .work-item .overlay p {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0;
+            line-height: 1.4;
+        }
+        .work-item .overlay .view-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s var(--ease-out);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .work-item:hover .view-icon {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+        .view-icon svg {
+            width: 16px;
+            height: 16px;
+            stroke: #fff;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* ── Lightbox ─────────────────────────── */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 99990;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s var(--ease-out);
+        }
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-content img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            transition: transform 0.4s var(--ease-out), opacity 0.3s;
+        }
+        .lightbox-content img.switching {
+            opacity: 0;
+            transform: scale(0.96);
+        }
+        .lightbox-close {
+            position: fixed;
+            top: 20px;
+            right: 24px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99992;
+            transition: all 0.3s;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            font-family: var(--font-body);
+            line-height: 1;
+        }
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        .lightbox-nav {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99992;
+            transition: all 0.3s;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            font-family: var(--font-body);
+        }
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+        .lightbox-nav.prev {
+            left: 20px;
+        }
+        .lightbox-nav.next {
+            right: 20px;
+        }
+        .lightbox-counter {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            z-index: 99992;
+            font-family: var(--font-body);
+        }
+        .lightbox-link {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 10px 18px;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            z-index: 99992;
+            transition: all 0.3s;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            letter-spacing: 0.02em;
+            display: none;
+        }
+        .lightbox-link:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        .lightbox-link.visible {
+            display: inline-block;
+        }
+        @media (max-width: 768px) {
+            .lightbox-close {
+                top: 14px;
+                right: 14px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            .lightbox-nav.prev {
+                left: 8px;
+            }
+            .lightbox-nav.next {
+                right: 8px;
+            }
+            .lightbox-content img {
+                max-width: 95vw;
+                max-height: 75vh;
+            }
+            .lightbox-link {
+                bottom: 20px;
+                right: 16px;
+                font-size: 0.75rem;
+                padding: 8px 14px;
+            }
+            .lightbox-counter {
+                bottom: 20px;
+                font-size: 0.7rem;
+            }
+        }
+
+        /* ── Reveal animation ────────────────── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .work-item.reveal {
+            transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out),
+                border-color 0.4s var(--ease-out), box-shadow 0.5s var(--ease-out);
+        }
+
+        /* ── Footer CTA ──────────────────────── */
+        .cta-footer {
+            text-align: center;
+            padding: 60px 40px 100px;
+            max-width: 1320px;
+            margin: 0 auto;
+        }
+        .cta-footer h3 {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+        .cta-footer p {
+            margin-bottom: 24px;
+            color: var(--muted);
+        }
+        .cta-footer .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s var(--ease-out);
+            border-radius: 100px;
+            background: var(--ink);
+            color: var(--bg);
+            border: 1px solid var(--ink);
+            letter-spacing: 0.01em;
+        }
+        .cta-footer .btn:hover {
+            background: transparent;
+            color: var(--ink);
+        }
+        @media (max-width: 560px) {
+            .cta-footer {
+                padding: 40px 24px 80px;
+            }
+            .cta-footer h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* ── Hidden state for filter ─────────── */
+        .work-item.filter-hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
-<div id="cursor"></div>
-<nav><div class="container"><a href="index.html" class="logo">Growsia</a><a href="index.html#contact" class="btn">Get Started</a></div></nav>
-<div class="section-nav"><a href="#websites">Websites</a><a href="#photography">Photography</a><a href="#googlemaps">Google Maps</a></div>
 
-<section id="websites" class="section-padding"><div class="container"><span class="label reveal">Websites we built</span><h2 class="reveal">High‑performance sites for real businesses.</h2><div class="work-grid">
-<div class="work-card reveal"><img src="media/atithi.png" alt="atithi"><div class="work-card-content"><h3>Atithi Sweets</h3><p>Fully responsive animated website with online ordering capabilities.</p><a href="https://atithi.growsia.com" class="work-link" target="_blank">Visit site →</a></div></div>
-<div class="work-card reveal"><img src="media/gym.png" alt="shapefit-gym"><div class="work-card-content"><h3>ShapeFit Gym</h3><p>Member management, attendance tracking, and AI-powered diet plan generation system.</p><a href="https://gym.growsia.com" class="work-link" target="_blank">Visit site →</a></div></div>
-</div></div></section>
+    <!-- ═══════════════════════════════════════════
+    CUSTOM CURSOR
+    ═══════════════════════════════════════════ -->
+    <div id="cursor"></div>
 
-<section id="photography" class="section-padding" style="padding-top:0"><div class="container"><span class="label reveal">Business photography</span><h2 class="reveal">Visual storytelling that elevates your brand.</h2><div class="work-grid">
-<div class="work-card reveal"><img src="https://placehold.co/600x400/1a1a1a/white?text=Interior+Shoot" alt="Interior"><div class="work-card-content"><h3>Studio 7 Design</h3><p>Professional interior shots used in portfolio and social media.</p><a href="#" class="work-link" target="_blank">View gallery →</a></div></div>
-<div class="work-card reveal"><img src="https://placehold.co/600x400/1a1a1a/white?text=Product+Shoot" alt="Product"><div class="work-card-content"><h3>Heritage Jewellers</h3><p>High‑end product photography for catalog and website.</p><a href="#" class="work-link" target="_blank">View gallery →</a></div></div>
-<div class="work-card reveal"><img src="https://placehold.co/600x400/1a1a1a/white?text=Event+Coverage" alt="Event"><div class="work-card-content"><h3>Tech Summit 2025</h3><p>Captured key moments for a corporate gala and workshop.</p><a href="#" class="work-link" target="_blank">View gallery →</a></div></div>
-</div></div></section>
+    <!-- ═══════════════════════════════════════════
+    NAVIGATION
+    ═══════════════════════════════════════════ -->
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo">Growsia</a>
+            <a href="index.html#contact" class="btn-nav">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════
+    INTRO
+    ═══════════════════════════════════════════ -->
+    <section class="intro">
+        <span class="label reveal">Our Work</span>
+        <h1 class="reveal">We craft digital<br>experiences that perform.</h1>
+        <p class="subtitle reveal">Websites, photography, and Google Maps optimization — all in one place. Click any image to view it fullscreen.</p>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+    FILTER TABS
+    ═══════════════════════════════════════════ -->
+    <div class="filter-bar reveal">
+        <button class="filter-btn active" data-filter="all">All Work</button>
+        <button class="filter-btn" data-filter="websites">Websites</button>
+        <button class="filter-btn" data-filter="photography">Photography</button>
+   
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+    WORK GRID
+    ─────────────────────────────────────────────
+    HOW TO ADD IMAGES:
+    1. Place your image in the "media/" folder
+    2. Copy any .work-item block below
+    3. Change the src="..." to your image path
+    4. Set data-category to: websites, photography, or googlemaps
+    5. If the item has an external link, add data-link="https://..."
+    6. Use .work-item--featured for wide/important items
+    7. Use .work-item--tall for vertical photos
+    8. Use .work-item--wide for panoramic images
+    ═══════════════════════════════════════════ -->
+    <section class="work-section">
+        <div class="work-grid">
+
+            <!-- ── WEBSITES ──────────────────────── -->
+            <!-- FEATURED: spans 2 columns, ideal for your best work -->
+            <div class="work-item work-item--featured reveal"
+            data-category="websites"
+            data-link="https://atithi.growsia.com"
+            tabindex="0">
+            <img src="media/atithi.png" alt="Atithi Sweets website preview" loading="lazy">
+            <div class="overlay">
+                <span class="tag">Website</span>
+                <h3>Atithi Sweets</h3>
+                <p>Fully responsive animated website with online ordering capabilities.</p>
+                <div class="view-icon">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Standard website card -->
+        <div class="work-item reveal"
+        data-category="websites"
+        data-link="https://gym.growsia.com"
+        tabindex="0">
+        <img src="media/gym.png" alt="ShapeFit Gym website preview" loading="lazy">
+        <div class="overlay">
+            <span class="tag">Website</span>
+            <h3>ShapeFit Gym</h3>
+            <p>Member management, attendance tracking & AI diet plans.</p>
+            <div class="view-icon">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+    ADD MORE WEBSITE ITEMS HERE:
+    Copy the block below, paste it after this comment,
+    and update the src, alt, h3, p, and data-link.
+
+    <div class="work-item reveal"
+    data-category="websites"
+    data-link="https://your-link.com"
+    tabindex="0">
+    <img src="media/your-image.png" alt="Description" loading="lazy">
+    <div class="overlay">
+    <span class="tag">Website</span>
+    <h3>Project Name</h3>
+    <p>Short description of the project.</p>
+    <div class="view-icon">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+</div>
+</div>
+</div>
+═══════════════════════════════════════════ -->
+
+<!-- ── PHOTOGRAPHY ────────────────────── -->
+<!-- Wide photo card for landscape shots -->
+<div class="work-item work-item--wide reveal"
+data-category="photography"
+tabindex="0">
+
+<img src="media/1.png"
+alt="Interior photography sample" loading="lazy">
+<div class="overlay">
+    <span class="tag">Photography</span>
+    <h3>Atithi Sweets</h3>
+    <p>Professional interior shots used in portfolio and Website.</p>
+    <div class="view-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+    </div>
+</div>
+</div>
+<div class="work-item work-item--wide reveal"
+data-category="photography"
+tabindex="0">
+
+<img src="media/2.png"
+alt="Interior photography sample" loading="lazy">
+<div class="overlay">
+    <span class="tag">Photography</span>
+    <h3>Atithi Sweets</h3>
+    <p>Professional interior shots used in portfolio and Website.</p>
+    <div class="view-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+    </div>
+</div>
+</div>
+<div class="work-item work-item--wide reveal"
+data-category="photography"
+tabindex="0">
+
+<img src="media/3.png"
+alt="Interior photography sample" loading="lazy">
+<div class="overlay">
+    <span class="tag">Photography</span>
+    <h3>Atithi Sweets</h3>
+    <p>Professional interior shots used in portfolio and Website.</p>
+    <div class="view-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+    </div>
+</div>
+</div>
+<div class="work-item work-item--wide reveal"
+data-category="photography"
+tabindex="0">
+
+<img src="media/4.png"
+alt="Interior photography sample" loading="lazy">
+<div class="overlay">
+    <span class="tag">Photography</span>
+    <h3>Atithi Sweets</h3>
+    <p>Professional interior shots used in portfolio and Website.</p>
+    <div class="view-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+    </div>
+</div>
+</div>
+<div class="work-item work-item--wide reveal"
+data-category="photography"
+tabindex="0">
+
+<img src="media/5.png"
+alt="Interior photography sample" loading="lazy">
+<div class="overlay">
+    <span class="tag">Photography</span>
+    <h3>Atithi Sweets</h3>
+    <p>Professional interior shots used in portfolio and Website.</p>
+    <div class="view-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+    </div>
+</div>
+</div>
+<div class="work-item work-item--wide reveal"
+data-category="photography"
+tabindex="0">
+
+<img src="media/6.png"
+alt="Interior photography sample" loading="lazy">
+<div class="overlay">
+    <span class="tag">Photography</span>
+    <h3>Atithi Sweets</h3>
+    <p>Professional interior shots used in portfolio and Website.</p>
+    <div class="view-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+    </div>
+</div>
+</div>
+<div class="work-item work-item--wide reveal"
+data-category="photography"
+tabindex="0">
+
+<img src="media/7.png"
+alt="Interior photography sample" loading="lazy">
+<div class="overlay">
+    <span class="tag">Photography</span>
+    <h3>Atithi Sweets</h3>
+    <p>Professional interior shots used in portfolio and Website.</p>
+    <div class="view-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+    </div>
+</div>
+</div>
+<div class="work-item work-item--wide reveal"
+data-category="photography"
+tabindex="0">
+
+<img src="media/8.png"
+alt="Interior photography sample" loading="lazy">
+<div class="overlay">
+    <span class="tag">Photography</span>
+    <h3>Atithi Sweets</h3>
+    <p>Professional interior shots used in portfolio and Website.</p>
+    <div class="view-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+    </div>
+</div>
+</div>
+<div class="work-item work-item--wide reveal"
+data-category="photography"
+tabindex="0">
+
+<img src="media/9.png"
+alt="Interior photography sample" loading="lazy">
+<div class="overlay">
+    <span class="tag">Photography</span>
+    <h3>Atithi Sweets</h3>
+    <p>Professional interior shots used in portfolio and Website.</p>
+    <div class="view-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+    </div>
+</div>
+</div><div class="work-item work-item--wide reveal"
+data-category="photography"
+tabindex="0">
+
+<img src="media/10.png"
+alt="Interior photography sample" loading="lazy">
+<div class="overlay">
+    <span class="tag">Photography</span>
+    <h3>Atithi Sweets</h3>
+    <p>Professional interior shots used in portfolio and Website.</p>
+    <div class="view-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+    </div>
+</div>
+</div>
 
 
-<section id="googlemaps" class="section-padding" style="padding-top:0"><div class="container"><span class="label reveal">Google Maps profiles</span><h2 class="reveal">Helping businesses get found on Google Maps.</h2><div class="work-grid">
-<div class="work-card reveal"><img src="https://placehold.co/600x400/1a1a1a/white?text=Google+Maps+Listing" alt="Maps1"><div class="work-card-content"><h3>Downtown Diner</h3><p>Claimed and verified the listing, added photos, hours, and responded to reviews.</p><a href="#" class="work-link" target="_blank">View on Maps →</a></div></div>
-<div class="work-card reveal"><img src="https://placehold.co/600x400/1a1a1a/white?text=Google+Maps+Listing" alt="Maps2"><div class="work-card-content"><h3>Elite Dental Clinic</h3><p>Optimised profile with services, Q&A, and posts. Increased direction requests by 150%.</p><a href="#" class="work-link" target="_blank">View on Maps →</a></div></div>
-<div class="work-card reveal"><img src="https://placehold.co/600x400/1a1a1a/white?text=Google+Maps+Listing" alt="Maps3"><div class="work-card-content"><h3>Green Leaf Spa</h3><p>Complete profile setup, booking link, attributes, and review generation campaign.</p><a href="#" class="work-link" target="_blank">View on Maps →</a></div></div>
-</div></div></section>
+<!-- ═══════════════════════════════════════════
+ADD MORE PHOTOGRAPHY ITEMS HERE:
+Copy the block above, update src, alt, h3, p.
+Use work-item--tall for vertical/portrait images.
+Use work-item--wide for panoramic images.
+═══════════════════════════════════════════ -->
 
+<!-- ── GOOGLE MAPS ──────────────────────
+<div class="work-item reveal"
+data-category="googlemaps"
+data-link="https://maps.google.com"
+tabindex="0">
+<img src="https://placehold.co/600x450/1a1a1a/f5f5f5?text=Google+Maps+Profile"
+alt="Google Maps listing example" loading="lazy">
+<div class="overlay">
+    <span class="tag">Google Maps</span>
+    <h3>Downtown Diner</h3>
+    <p>Claimed & verified listing — added photos, hours, and review responses.</p>
+    <div class="view-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+    </div>
+</div>
+</div>
+
+<div class="work-item reveal"
+data-category="googlemaps"
+data-link="https://maps.google.com"
+tabindex="0">
+<img src="https://placehold.co/600x450/161616/f5f5f5?text=Google+Maps+Optimization"
+alt="Google Maps optimization example" loading="lazy">
+<div class="overlay">
+    <span class="tag">Google Maps</span>
+    <h3>Elite Dental Clinic</h3>
+    <p>Optimised profile — direction requests up by 150%.</p>
+    <div class="view-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+    </div>
+</div>
+</div> -->
+
+
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+FOOTER CTA
+═══════════════════════════════════════════ -->
+<section class="cta-footer reveal">
+    <h3>Ready to grow your business?</h3>
+    <p>Let's build something great together. Start your project today.</p>
+    <a href="https://growsia.com" class="btn">Get Started</a>
+</section>
+
+<!-- ═══════════════════════════════════════════
+LIGHTBOX OVERLAY
+═══════════════════════════════════════════ -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">✕</button>
+    <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous image">←</button>
+    <button class="lightbox-nav next" id="lightboxNext" aria-label="Next image">→</button>
+    <div class="lightbox-content">
+        <img src="" alt="" id="lightboxImg">
+    </div>
+    <span class="lightbox-counter" id="lightboxCounter"></span>
+    <a href="#" class="lightbox-link" id="lightboxLink" target="_blank" rel="noopener">Visit site ↗</a>
+</div>
+
+<!-- ═══════════════════════════════════════════
+SCRIPTS
+═══════════════════════════════════════════ -->
 <script>
-    const cursor = document.getElementById('cursor');
-    let cursorX = 0, cursorY = 0, targetX = 0, targetY = 0, isHovering = false;
-    document.addEventListener('mousemove', (e) => { targetX = e.clientX; targetY = e.clientY; });
-    function animateCursor() {
-        const ease = isHovering ? 0.2 : 0.15;
-        cursorX += (targetX - cursorX) * ease;
-        cursorY += (targetY - cursorY) * ease;
-        cursor.style.transform = `translate(${cursorX - (isHovering ? 20 : 4)}px, ${cursorY - (isHovering ? 20 : 4)}px)`;
-        requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-    document.querySelectorAll('a, button, .work-card').forEach(el => {
-        el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); isHovering = true; });
-        el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); isHovering = false; });
-    });
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    (function() {
+        // ── Custom Cursor ──────────────────────
+        const cursor = document.getElementById('cursor');
+        let cursorX = 0,
+            cursorY = 0,
+            targetX = 0,
+            targetY = 0,
+            isHovering = false,
+            isLightboxOpen = false;
+
+        document.addEventListener('mousemove', (e) => {
+            targetX = e.clientX;
+            targetY = e.clientY;
+        });
+
+        function animateCursor() {
+            const ease = isHovering ? 0.22 : 0.14;
+            cursorX += (targetX - cursorX) * ease;
+            cursorY += (targetY - cursorY) * ease;
+            const offset = isHovering ? 24 : 4;
+            cursor.style.transform = `translate(${cursorX - offset}px, ${cursorY - offset}px)`;
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Elements that trigger cursor hover state
+        const hoverTargets = document.querySelectorAll(
+            'a, button, .work-item, .lightbox-nav, .lightbox-close, .filter-btn');
+        hoverTargets.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover');
+                if (isLightboxOpen) cursor.classList.add('hover-lightbox');
+                isHovering = true;
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover', 'hover-lightbox');
+                isHovering = false;
+            });
+        });
+
+        // ── Intersection Observer for reveal ───
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // ── Filter Logic ───────────────────────
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const workItems = document.querySelectorAll('.work-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.getAttribute('data-filter');
+
+                // Update active button
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Filter items
+                workItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') ===
+                        filter) {
+                        item.classList.remove('filter-hidden');
+                    } else {
+                        item.classList.add('filter-hidden');
+                    }
+                });
+
+                // Reset lightbox index since visible items changed
+                currentLightboxIndex = 0;
+            });
+        });
+
+        // ── Lightbox Logic ─────────────────────
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxClose = document.getElementById('lightboxClose');
+        const lightboxPrev = document.getElementById('lightboxPrev');
+        const lightboxNext = document.getElementById('lightboxNext');
+        const lightboxCounter = document.getElementById('lightboxCounter');
+        const lightboxLink = document.getElementById('lightboxLink');
+
+        let currentLightboxIndex = 0;
+        let visibleItems = [];
+
+        function getVisibleWorkItems() {
+            return Array.from(document.querySelectorAll('.work-item:not(.filter-hidden)'));
+        }
+
+        function openLightbox(index) {
+            visibleItems = getVisibleWorkItems();
+            if (visibleItems.length === 0) return;
+            currentLightboxIndex = Math.max(0, Math.min(index, visibleItems.length - 1));
+            updateLightboxImage();
+            lightbox.classList.add('active');
+            isLightboxOpen = true;
+            document.body.style.overflow = 'hidden';
+            cursor.classList.add('hover-lightbox');
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            isLightboxOpen = false;
+            document.body.style.overflow = '';
+            cursor.classList.remove('hover-lightbox');
+            lightboxLink.classList.remove('visible');
+            lightboxLink.href = '#';
+        }
+
+        function updateLightboxImage() {
+            visibleItems = getVisibleWorkItems();
+            if (visibleItems.length === 0 || currentLightboxIndex >= visibleItems.length) return;
+
+            const item = visibleItems[currentLightboxIndex];
+            const img = item.querySelector('img');
+            const src = img ? img.getAttribute('src') : '';
+            const alt = img ? img.getAttribute('alt') : '';
+
+            // Switching animation
+            lightboxImg.classList.add('switching');
+            setTimeout(() => {
+                lightboxImg.src = src;
+                lightboxImg.alt = alt;
+                lightboxImg.classList.remove('switching');
+            }, 200);
+
+            // Counter
+            lightboxCounter.textContent =
+                `${currentLightboxIndex + 1} / ${visibleItems.length}`;
+
+            // External link
+            const link = item.getAttribute('data-link');
+            if (link && link !== '#' && link.startsWith('http')) {
+                lightboxLink.href = link;
+                lightboxLink.classList.add('visible');
+            } else {
+                lightboxLink.classList.remove('visible');
+                lightboxLink.href = '#';
+            }
+        }
+
+        function navigateLightbox(direction) {
+            visibleItems = getVisibleWorkItems();
+            if (visibleItems.length === 0) return;
+            currentLightboxIndex =
+                (currentLightboxIndex + direction + visibleItems.length) % visibleItems.length;
+            updateLightboxImage();
+        }
+
+        // Open lightbox when clicking a work item
+        document.querySelectorAll('.work-item').forEach((item, index) => {
+            item.addEventListener('click', (e) => {
+                // Don't open if user is clicking a link inside the overlay
+                // (there aren't clickable links in the overlay currently, but just in case)
+                const allItems = getVisibleWorkItems();
+                const globalIndex = Array.from(document.querySelectorAll(
+                    '.work-item:not(.filter-hidden)')).indexOf(item);
+                openLightbox(globalIndex >= 0 ? globalIndex : 0);
+            });
+        });
+
+        // Close button
+        lightboxClose.addEventListener('click', closeLightbox);
+
+        // Click overlay background to close
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        // Navigation buttons
+        lightboxPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navigateLightbox(-1);
+        });
+        lightboxNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navigateLightbox(1);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!isLightboxOpen) return;
+            switch (e.key) {
+                case 'Escape':
+                    closeLightbox();
+                    break;
+                case 'ArrowLeft':
+                    navigateLightbox(-1);
+                    break;
+                case 'ArrowRight':
+                    navigateLightbox(1);
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        // Touch swipe support for lightbox
+        let touchStartX = 0;
+        let touchEndX = 0;
+        lightbox.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        lightbox.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 60) {
+                navigateLightbox(diff > 0 ? 1 : -1);
+            }
+        }, { passive: true });
+
+        // ── Initialize ──────────────────────────
+        // Ensure all items are visible on load (filter "all" is active)
+        workItems.forEach(item => item.classList.remove('filter-hidden'));
+        visibleItems = getVisibleWorkItems();
+    })();
 </script>
 </body>
 </html>
