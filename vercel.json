@@ -1,0 +1,49 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/work/atithi/:path*",
+      "destination": "https://atithi-sweets.vercel.app/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*).html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "growsia.com"
+        }
+      ],
+      "destination": "https://www.growsia.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.growsia.com"
+        },
+        {
+          "type": "header",
+          "key": "x-forwarded-proto",
+          "value": "http"
+        }
+      ],
+      "destination": "https://www.growsia.com/:path*",
+      "permanent": true
+    }
+  ]
+}
